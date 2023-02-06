@@ -1,0 +1,26 @@
+{% include 'core/navbar.html' %}
+{% load static %}
+
+<div id="content-wrapper" class="mt-4" style="padding-top: 1%">
+    <div class="container-fluid">
+        <div class="card mb-2 col-md-10">
+            <h1>Dashboard Page</h1>
+            <div class="md-1">
+                <a href="{% url 'createcv' %}">
+                    <button class="btn btn-primary">Create Cv</button>
+                </a>
+            </div>
+
+            <br>
+
+            <div class="md-1">
+                <a href="{% url 'cv-detail' id=request.user.cv.id %}">
+                    <button class="btn btn-primary">View Cv</button>
+                </a>
+            </div>
+            <br>
+            
+        </div>
+        {% include 'core/footer.html' %}
+    </div>
+</div>

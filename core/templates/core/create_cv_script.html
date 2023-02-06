@@ -1,0 +1,365 @@
+<script>
+    $(document).ready(function(){
+        
+
+        $('#profile_save').click(function(e){
+            e.preventDefault();
+
+            var fname = $('.uform #fname').val();
+            var lname = $('.uform #lname').val();
+            var mname = $('.uform #mname').val();
+            var gender = $('.uform #gender').val();
+            var country = $('.uform #country').val();
+            var region = $('.uform #region').val();
+            var email = $('.uform #email').val();
+            var phone = $('.uform #phone').val();
+            var occupation = $('.uform #occupation').val();
+            var dob = $('.uform #dob').val();
+            var bio = $('.uform #bio').val();
+
+            // Check if FormData is defined
+            if (!window.FormData) {
+                // If FormData is not defined, include a polyfill
+                // You can use any polyfill library, such as https://github.com/jimmywarting/FormData
+                var FormDataPolyfill = require('form-data-polyfill');
+            }
+  
+  // Use FormData as usual
+            var data = new FormData();
+  // ... rest of the code that uses FormData ...
+  
+            
+
+            //var data = new Formdata();
+            data.append('file', $("input[id^='file']")[0].files[0])
+            data.append('csrfmiddlewaretoken', "{{ csrf_token }}")
+
+            data.append('fname', fname);
+            data.append('lname', lname);
+            data.append('mname', mname);
+            data.append('gender', gender);
+            data.append('country', country);
+            data.append('region', region);
+            data.append('email', email);
+            data.append('phone', phone);
+            data.append('occupation', occupation);
+            data.append('dob', dob);
+            data.append('bio', bio);
+
+            $.ajax({
+                url:"{% url 'profile-save' %}",
+                method:"POST",
+                processData:false,
+                contentType:false,
+                mimeType:"multipart/form-data",
+                data:data,
+                dataType: 'json',
+
+                beforesend:function(){
+                    $('#loading_spinner').show();
+                    $(":input").prop("disable", true);
+                },
+
+                complete: function(){
+                    $('#loading_spinner').hide();
+                    $(":input").prop("disable", false);
+                },
+
+                success: function(data){
+                    $('.uform')[0].reset();
+                    $('#result').html('');
+                    $('#result').append('Profile Saved Successfully');
+                }
+            })
+            
+        });
+
+
+        $('#skill_save').hide();
+        $('#edu_save').hide();
+
+        // value for skill form
+        var a = 0
+
+        //value for edu form
+        var b = 0
+
+        // Increment Skill form
+        $('#skill_add').click(function(e){
+         e.preventDefault();
+         appendSkillRow();
+         a++;
+
+         $('#skill_save').show();
+
+        });
+
+
+        // Increment education form
+        $('#edu_add').click(function(e){
+         e.preventDefault();
+         appendEduRow();
+         b++;
+
+         $('#edu_save').show();
+
+        });
+
+
+
+        // Append Skill form
+        function appendSkillRow(){
+            $('#wrapper_skill').append(
+                
+                    '<div class="form-group" id="'+a+'">' +
+                        '<div class="row" id="'+a+'">' +
+                            '<div class="col" id="'+a+'">' +
+                                '<label for="">Name of Skill</label>' +
+                                '<input type="Enter your skill" name="s_name" id="'+a+'" class="form-control">' +
+                            '</div>' +
+                            '<div class="col" id="'+a+'">' +
+                                '<label for="">Level of your skill</label>' +
+                                '<select name="s_level" id="'+a+'" class="form-control">' +
+                                    '<option value="">Choose your level</option>' +
+                                    '<option value="Beginner">Beginner</option>' +
+                                    '<option value="Intermediate">Intermediate</option>' +
+                                    '<option value="Advanced">Advanced</option>' +
+                                '</select>' +
+                            '</div>' +
+                            '<div class="skill_del_btn col" id="'+a+'">' +
+                                '<button class="btn btn-danger">Delete</button>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>'
+                  
+            );
+        }
+
+
+
+
+        // Append Education form
+        function appendEduRow(){
+            $('#wrapper_edu').append(
+                
+                    '<div id="'+b+'" class="form-group">' +
+                        '<div id="'+b+'" class="row">' +
+                            '<div id="'+b+'" class="col">' +
+                                '<label for="">Academic Profile</label>' +
+                                '<input type="Enter Curricuullam name" name="name" class="form-control">' +
+                            '</div>' +
+                            '<div id="'+b+'" class="col">' +
+                                '<label for="">Year</label>' +
+                                '<input type="Enter Year" name="year" class="form-control">' +
+                            '</div>' +
+                            '<div id="'+b+'" class="col">' +
+                                '<label for="">Award</label>' +
+                                '<input type="Enter Award" name="award" class="form-control">' +
+                            '</div>' +
+                            
+                            '<div id="'+b+'" class="edu_del_btn col">' +
+                                '<button class="btn btn-danger">Delete</button>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>'
+                    
+                  
+            );
+        }
+
+
+
+        //skill delete form
+        $('#wrapper_skill').on('click', '.skill_del_btn', function(e){
+            e.preventDefault();
+            var s_id = e.currentTarget.id;
+            
+            $('div[id='+s_id+']').remove()
+            a--;
+            if( a== 0){
+                $('#skill_save').hide();
+            }
+        });
+
+
+
+
+        //Education delete form
+        $('#wrapper_edu').on('click', '.edu_del_btn', function(e){
+            e.preventDefault();
+            var e_id = e.currentTarget.id;
+            
+            $('div[id='+e_id+']').remove()
+            b--;
+            if( b== 0){
+                $('#edu_save').hide();
+            }
+        });
+
+
+        $.fn.serializeObject = function(asString){
+            var o = {}
+            var a = this.serializeArray();
+            $.each(a,function(){
+                if($('#' + this.name).hasClass('date')){
+                    this.value = new Date(this.value).setHours(12)
+                }
+                    
+                    if(o[this.name] !== undefined){
+                        if(!o[this.name].push){
+                            o[this.name] = [o[this.name]]
+                        }
+                        o[this.name].push(this.value || '')
+                    }else{
+                        o[this.name] = this.value || '';
+                    }
+
+            });
+            if(asString){
+                return JSON.stringify(o)
+            }
+            return o;
+        }
+
+
+
+        //Save Skill
+        $('#skill_save').click(function(e){
+            e.preventDefault();
+            var formData = $('.form_skill').serializeObject()
+            var obj;
+            var nameArray = []
+            var levelArray = []
+
+            if(Array.isArray(formData.s_name)){
+                for(var i=0; i <formData.s_name.length; i++){
+                    obj = {}
+                    obj.s_name = formData.s_name[i]
+                    obj.s_level = formData.s_level[i]
+
+                    nameArray.push(formData.s_name[i])
+                    levelArray.push(formData.s_level[i])
+                    
+                }
+                
+                
+                $.ajax({
+                    type:'POST',
+                    url:'{% url "skill-save" %}',
+                    headers: {'X-CSRFToken': '{{csrf_token}}'},
+                    data:{'s_name':nameArray, 's_level':levelArray},
+                    success: function(data){
+                        x = data.status
+                        
+                        if(x == 1){
+                            alert('Multiple Skill Data Saved')
+                        }else{
+                            alert('Multiple Skill Data Not Saved')
+                        }
+                        
+                    }
+                })
+                
+            }else{
+                obj = {}
+                obj.s_name = formData.s_name
+                obj.s_level = formData.s_level
+
+                nameArray.push(formData.s_name)
+                levelArray.push(formData.s_level)
+                
+                $.ajax({
+                    type:'POST',
+                    url:'{% url "skill-save" %}',
+                    headers: {'X-CSRFToken': '{{csrf_token}}'},
+                    data:{'s_name':nameArray, 's_level':levelArray},
+                    success: function(data){
+                        x = data.status
+                        
+                        if(x == 1){
+                            alert('Single Skill Data Saved')
+                        }else{
+                            alert('Single Skill Data Not Saved')
+                        }
+                        
+                    }
+                })
+            }
+        });
+
+
+
+
+
+
+        //Save Education
+        $('#edu_save').click(function(e){
+            e.preventDefault();
+            var formData = $('.form_edu').serializeObject()
+            var obj;
+            var nameArray = []
+            var yearArray = []
+            var awardArray = []
+
+            if(Array.isArray(formData.name)){
+                for(var i=0; i <formData.name.length; i++){
+                    obj = {}
+                    obj.name = formData.name[i]
+                    obj.year = formData.year[i]
+                    obj.award = formData.award[i]
+
+                    nameArray.push(formData.name[i])
+                    yearArray.push(formData.year[i])
+                    awardArray.push(formData.award[i])
+                    
+                }
+                
+                
+                $.ajax({
+                    type:'POST',
+                    url:'{% url "edu-save" %}',
+                    headers: {'X-CSRFToken': '{{csrf_token}}'},
+                    data:{'name':nameArray, 'year':yearArray, 'award':awardArray},
+                    success: function(data){
+                        x = data.status
+                        
+                        if(x == 1){
+                            alert('Multiple Education Data Saved')
+                        }else{
+                            alert('Multiple Education Data Not Saved')
+                        }
+                        
+                    }
+                })
+                
+            }else{
+                obj = {}
+                obj.name = formData.name
+                obj.year = formData.year
+                obj.award = formData.award
+
+                nameArray.push(formData.name)
+                yearArray.push(formData.year)
+                awardArray.push(formData.award)
+                
+                $.ajax({
+                    type:'POST',
+                    url:'{% url "edu-save" %}',
+                    headers: {'X-CSRFToken': '{{csrf_token}}'},
+                    data:{'name':nameArray, 'year':yearArray, 'award':awardArray},
+                    success: function(data){
+                        x = data.status
+                        
+                        if(x == 1){
+                            alert('Single Edu Data Saved')
+                        }else{
+                            alert('Single Edu Data Not Saved')
+                        }
+                        
+                    }
+                })
+            }
+        });
+        
+    })
+</script>

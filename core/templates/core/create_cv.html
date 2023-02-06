@@ -1,0 +1,174 @@
+{% include 'core/navbar.html' %}
+{% load static %}
+
+<div id="content-wrapper" class="mt-4" style="padding-top: 1%">
+    <div class="container-fluid">
+        <div class="mb-2 col-md-12">
+
+            <div class="row">
+                <div class="col-md-2">
+                    
+                </div>
+                <div class="card col-md-8">
+                    <h3 class="text-primary">Click On Add, To Add Form Then Fill In Your Details And Submit</h3>
+                    <br>
+
+                    <h1>Provide Basic Profile Information</h1>
+                    <form action="" class="uform" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="">First Name</label>
+                                    <input type="text" placeholder="Enter First Name" id="fname" class="form-control">
+                                </div>
+                                <div class="col">
+                                    <label for="">Middle Name</label>
+                                    <input type="text" placeholder="Enter Middle Name" id="mname" class="form-control">
+                                </div>
+                                <div class="col">
+                                    <label for="">Last Name</label>
+                                    <input type="text" placeholder="Enter Last Name" id="lname" class="form-control">
+                                </div>
+                                
+                                
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <label for="">Gender</label>
+                                    <select id="gender" class="form-control">
+                                        <option value="">Choose your Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="">Date Of Birth</label>
+                                    <input type="date" placeholder="Enter date of birth" id="dob" class="form-control">
+                                </div>
+                                <div class="col">
+                                    <label for="">Occupation</label>
+                                    <input type="text" placeholder="Enter your occupation" id="occupation" class="form-control">
+                                </div>
+                                
+                                
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <label for="">Email</label>
+                                    <input type="email" placeholder="Enter your email" id="email" class="form-control">
+                                </div>
+                                <div class="col">
+                                    <label for="">Phone</label>
+                                    <input type="text" placeholder="Enter phone number" id="phone" class="form-control">
+                                </div>
+                                
+                                
+                                
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <label for="">Country</label>
+                                    <input type="text" placeholder="Enter your country" id="country" class="form-control">
+                                </div>
+                                <div class="col">
+                                    <label for="">Region</label>
+                                    <input type="text" placeholder="Enter your region" id="region" class="form-control">
+                                </div>
+                                
+                                
+                                
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <label for="">Biography</label>
+                                    <textarea placeholder="Compose your biography" id="bio" id="" cols="4" rows="5" class="form-control"></textarea>
+                                    
+                                </div>
+                                <div class="col">
+                                    <label for="">Profile</label>
+                                    <input type="file" id="file" name="file" class="form-control">
+                                </div>
+                                
+                                
+                                
+                            </div>
+
+                            
+                        </div>
+
+                        <img src="{% static 'img/spinner.gif' %}" style="width: 50%; padding-top: 0%; display: none;" id="loading_spinner" alt="">
+                        <div id="result"></div>
+                        <br>
+                        
+                        <button id="profile_save" class="btn btn-primary">Save</button>
+
+                    </form>
+
+                    <h1>Add Professional Skills Form</h1>
+
+                        <form class="form_skill" method="POST">
+                        {% csrf_token %}
+                    <div id="wrapper_skill"></div>
+                    <br>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <button id="skill_save" class="btn btn-primary">Save</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button id="skill_add" class="btn btn-success">Add Form</button>
+                            </div>
+                            
+                        </div>
+                        </form>
+                    <br>
+
+                    <h1>Add Educational Background Form</h1>
+
+                    <form class="form_edu" method="POST">
+                        {% csrf_token %}
+                    <div id="wrapper_edu"></div>
+
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <button id="edu_save" class="btn btn-primary">Save</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button id="edu_add" class="btn btn-success">Add Form</button>
+                        </div>
+
+                    </form>
+
+                    
+                    
+                    
+                        
+                    
+                   
+                    
+
+                </div>
+                <div class="col-md-2">
+                    
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+</div>
+
+{% include 'core/create_cv_script.html' %}

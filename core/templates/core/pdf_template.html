@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cv_template.css' %}">
+</head>
+<body>
+    
+    <h1 class="cv_header">CURRICULUM VITAE(CV)</h1>
+    
+    <div class="row" style="width: 100%; height: 100%;">
+
+        {% if user_profile %}
+        {% for profile in user_profile %}        
+
+        <img src="{% static 'img/photo(600_600).jpg' %}" style="width: 10%; height: 10%;">
+            
+        <br>
+        
+            <div style="padding-right: 20%">
+
+                
+                
+                <div class="basic-info">
+                    
+                    <h1>{{ profile.fname}} {{ profile.mname}} {{ profile.lname}}</h1>
+
+                    <p>{{ profile.occupation}}</p>
+                    <p>{{ profile.country}} {{ profile.region}}</p>
+                    <p>{{ profile.email}},{{ profile.phone}}</p>
+
+                    
+                </div>
+
+            
+
+        
+        
+            </div>
+
+            
+
+    </div>
+    <hr class="divider_line" style="color: #242424; border-top: medium double green; margin-top: 1px;">
+
+
+                    <h1 style="margin: 0; padding-top: 25px;">Biography</h1>
+
+                    <p class="bio">{{ profile.bio}}</p>
+        {% endfor %}
+        {% endif %}
+    
+
+</body>
+</html>

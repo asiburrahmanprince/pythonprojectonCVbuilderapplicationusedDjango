@@ -1,0 +1,44 @@
+@font-face {
+    font-family: SourceSansPro;
+    src: url(SourceSansPro-Regular.ttf);
+  }
+
+
+
+.cv_header{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    display: flex;
+}
+
+.basic-info p{
+    color: #0087c3;
+    font-size: 1.2rem;
+    margin: 0;
+    
+}
+
+.basic-info h1{
+    margin: 0;
+    padding-top: 5%;
+}
+
+body{
+    position: relative;
+    width: 21cm;
+    height: 100%;
+    margin: 0 auto;
+    color: #555555;
+    background-color: #FFFFFF;
+    font-family: Arial,sans-serif;
+    font-size: 14px;
+    font-family: SourceSansPro;
+}
+
+.bio{
+    color: #0087c3;
+    font-size: 1.2rem;
+    margin: 0;
+}
